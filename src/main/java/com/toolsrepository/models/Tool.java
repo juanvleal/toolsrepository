@@ -3,10 +3,8 @@ package com.toolsrepository.models;
 
 import lombok.*;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Entity
@@ -17,10 +15,13 @@ public class Tool {
     @GeneratedValue
     private Long id;
     private String title;
+    @Size(max = 256, message = "O tamanho máximo da descrição é 256 caracteres!")
+    @Lob
     private String description;
     private String link;
 
     @ElementCollection
+    @Size(max = 8, message = "O tamanho máximo da descrição é 256 caracteres!")
     private List<String> tags;
 
     public Tool() {

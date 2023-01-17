@@ -42,7 +42,7 @@ public class ToolController {
         return ResponseEntity.ok().body(toolDto);
     }
 
-    @RequestMapping(value="/{id}", method=RequestMethod.PUT)
+    @RequestMapping(value="/{id}", method=RequestMethod.PATCH)
     @Operation(summary = "Modifica os dados de uma ferramenta.")
     public ResponseEntity<ToolDto> update(@RequestBody ToolForm form, @PathVariable Long id) {
 

@@ -6,10 +6,12 @@ import com.toolsrepository.models.Tool;
 import com.toolsrepository.repositories.ToolRepository;
 import com.toolsrepository.services.exceptions.EmptyResultDataAccessException;
 import com.toolsrepository.services.exceptions.ResourceNotFoundException;
+import com.toolsrepository.services.exceptions.TitleDuplicatedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +23,11 @@ public class ToolService {
 
     @Transactional
     public ToolDto insert(ToolForm form){
+
+        if(toolRepository.existsToolByTitle(form.getTitle())){
+            throw new TitleDuplicatedException("Já existe uma ferramente com esse título!");
+        }
+
         Tool entity = new Tool();
         entity.setTitle(form.getTitle());
         entity.setDescription(form.getDescription());
@@ -43,6 +50,9 @@ public class ToolService {
     @Transactional
     public ToolDto update(Long id, ToolForm form){
         Tool entity = toolRepository.getReferenceById(id);
+        if(toolRepository.existsToolByTitle(form.getTitle())){
+            throw new TitleDuplicatedException("Já existe uma ferramente com esse título!");
+        }
         if(form.getTitle() != null) entity.setTitle(form.getTitle());
         if(form.getDescription() != null) entity.setDescription(form.getDescription());
         if(form.getLink() != null) entity.setLink(form.getLink());
