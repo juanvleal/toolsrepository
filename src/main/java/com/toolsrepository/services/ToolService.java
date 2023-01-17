@@ -43,10 +43,10 @@ public class ToolService {
     @Transactional
     public ToolDto update(Long id, ToolForm form){
         Tool entity = toolRepository.getReferenceById(id);
-        entity.setTitle(form.getTitle());
-        entity.setDescription(form.getDescription());
-        entity.setLink(form.getLink());
-        entity.setTags(form.getTags());
+        if(form.getTitle() != null) entity.setTitle(form.getTitle());
+        if(form.getDescription() != null) entity.setDescription(form.getDescription());
+        if(form.getLink() != null) entity.setLink(form.getLink());
+        if(form.getTags() != null) entity.setTags(form.getTags());
         entity = toolRepository.save(entity);
         return new ToolDto(entity);
     }
